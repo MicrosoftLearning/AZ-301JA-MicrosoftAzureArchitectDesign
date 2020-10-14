@@ -138,7 +138,7 @@ lab:
 1. Microsoft Edge ウィンドウで、Azure Portal の **Cloud Shell** プロンプトで次のコマンドを入力し、**Enter** キーを押して、Docker Hub から **nginx** イメージをデプロイします:
 
     ```
-    kubectl run aad0402-akscluster --image=nginx --replicas=1 --port=80
+    kubectl create deployment nginx-deployment --image=nginx
     ```
 
     > **注記**: デプロイメントの名前を入力するときは、必ず小文字を使用してください。 また、「このコマンドは非推奨であり、将来のバージョンでは削除されますが、クラスターは正常に作成されました」という通知も受け取ります。
@@ -158,7 +158,7 @@ lab:
 4. **Cloud Shell** コマンド プロンプトで、次のコマンドを入力し、**Enter** キーを押してポッドをインターネットから使用できるようにします:
 
     ```
-    kubectl expose deployment aad0402-akscluster --port=80 --type=LoadBalancer
+    kubectl expose deployment nginx-deployment --port=80 --type=LoadBalancer
     ```
 
     > **注記**: デプロイメントの名前を入力するときは、必ず小文字を使用してください。
@@ -179,7 +179,7 @@ lab:
 1. **Cloud Shell** コマンド プロンプトで、次のコマンドを入力し、**Enter** キーを押してデプロイメントをスケールします:
 
     ```
-    kubectl scale --replicas=2 deployment/aad0402-akscluster
+    kubectl scale --replicas=2 deployment/nginx-deployment
     ```
 
 2. **Cloud Shell** コマンド プロンプトで、次のコマンドを入力し、**Enter** キーを押してデプロイメントをスケールします:
@@ -211,7 +211,7 @@ lab:
 6. **Cloud Shell** コマンド プロンプトで、次のコマンドを入力し、**Enter** キーを押してデプロイメントをスケールします:
 
     ```
-    kubectl scale --replicas=10 deployment/aad0402-akscluster
+    kubectl scale --replicas=10 deployment/nginx-deployment
     ```
 
 7. **Cloud Shell** コマンド プロンプトで、次のコマンドを入力し、**Enter** キーを押して、デプロイメントをスケーリングした結果を確認します:
@@ -233,7 +233,7 @@ lab:
 9. **Cloud Shell** コマンド プロンプトで、次のコマンドを入力し、**Enter** キーを押してデプロイメントを削除します:
 
     ```
-    kubectl delete deployment aad0402-akscluster 
+    kubectl delete deployment nginx-deployment
     ```
 
 ## エクササイズ 3: AKS クラスタ内のポッドのオートスケール 
@@ -295,13 +295,14 @@ lab:
 1. **Cloud Shell** コマンド プロンプトで、次のコマンドを入力し、**Enter** キーを押して、サンプルのコンテナ化されたアプリケーションをダウンロードします:
 
     ```
+    cd ..
     git clone https://github.com/kubernetes-incubator/metrics-server.git
     ```
 
 2. **Cloud Shell** コマンド プロンプトで、次のコマンドを入力し、**Enter** キーを押して **Metrics Server** をインストールします:
 
     ```
-    kubectl create -f ~/metrics-server/deploy/1.8+/
+    kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.3.6/components.yaml
     ```
 
 3. **Cloud Shell** コマンド プロンプトで、次のコマンドを入力し、**Enter** キーを押して **azure-vote-front** デプロイのオートスケールを設定します:
@@ -350,7 +351,7 @@ lab:
 
 10. **Cloud Shell** ペインを閉じます。
 
-> **校閲**: このエキササイズでは、AKS クラスターでポッドのオートスケールを実装しました:
+> **復習**: このエキササイズでは、AKS クラスターでポッドのオートスケールを実装しました:
 
 
 ## エクササイズ 4: AKS を使用して DevOps を実装します:
@@ -381,7 +382,7 @@ lab:
     PUBLIC_KEY_REGEX="$(echo $PUBLIC_KEY | sed -e 's/\\/\\\\/g; s/\//\\\//g; s/&/\\\&/g')"
     ```
 
-    > **注記**: または、ファイルを開いて、公開キー文字列をファイルに直接入力することもできます。 または、ファイルを開いて、公開キー文字列をファイルに直接入力することもできます。
+    > **注記**: または、ファイルを開いて、公開キー文字列をファイルに直接入力することもできます。 
 
 4. **Cloud Shell** コマンド プロンプトで、次のコマンドを入力し、**Enter** を押して、デプロイメントに使用するリソース グループの名前を指定する変数を作成します:
 
